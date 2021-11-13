@@ -6,25 +6,37 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_my_crop_image.*
 import kotlinx.android.synthetic.main.activity_report_vehicle_user.*
 
-class ReportVehicleUser : AppCompatActivity() {
+class ReportVehicleUser : AppCompatActivity(){
     var name = "xyz"
     var vehicleId = "xyz"
     var ownerNum = "xyz"
+    var stationCode = "492007"
+    var location = "xyz"
+    var userAadharNum = "xyz"
+    var userMobileNum = "xyz"
+    var userName = "xyz"
+    var status = "not accepted yet"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_vehicle_user)
 
         var plateString: String = intent.getStringExtra("plateno").toString()
-        var imageUri: Uri = Uri.parse(intent.getStringExtra("uri"))
+        val imageUri: Uri = Uri.parse(intent.getStringExtra("uri"))
 
-        var uploadedImageUri: Uri = Uri.parse(intent.getStringExtra("uploadeduri"))
+        edtTextReportVehicleCReport.isEnabled = false
+
+        val uploadedImageUri: Uri = Uri.parse(intent.getStringExtra("uploadeduri"))
         plateString = plateString.filterNot { it.isWhitespace() }
         imgViewReportVehicleUserImage.setImageURI(imageUri)
         val vehicleUrl = getString(R.string.ip)+"/carreportsystem/get_vehicle_info.php?number="+plateString.toUpperCase()
@@ -57,15 +69,35 @@ class ReportVehicleUser : AppCompatActivity() {
             builder.show()
 
         }
+
+
+        btnReportVehcleSubmit.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                reportUser(uploadedImageUri.toString(),
+                        name,
+                        plateString,
+                        vehicleId,
+                        edtTextReportVehicleCReport.text.toString(),
+                        stationCode,
+                        location,
+                        userName,
+                        userAadharNum,
+                        userMobileNum,
+                        ownerNum,
+                        status
+                )
+            }
+        })
     }
 
     fun checkValues(): Int{
         try{
             var sharedPreferences = getSharedPreferences("profile", MODE_PRIVATE)
-            var aadharNum = sharedPreferences.getString("aadhar_num", "")
-            var mobileNum = sharedPreferences.getString("mobile_num", "")
+            userAadharNum = sharedPreferences.getString("aadhar_num", "").toString()
+            userMobileNum = sharedPreferences.getString("mobile_num", "").toString()
+            userName = sharedPreferences.getString("name", "").toString()
 
-            if(aadharNum!=null && aadharNum.toString() != ""){
+            if(userAadharNum!=null && userAadharNum.toString() != ""){
                 return 1
             }else{
                 return -1
@@ -91,6 +123,89 @@ class ReportVehicleUser : AppCompatActivity() {
                 }
                 builder.show()
                 
+            }
+        }
+    }
+
+    fun reportUser(uri : String,
+                   ownname : String,
+                   platno : String,
+                   uid : String,
+                   recon : String,
+                   pin : String,
+                   loc : String,
+                   username : String,
+                   aadharuser : String,
+                   userno : String,
+                   ownno : String,
+                   status : String){
+        var reportUrl = getString(R.string.ip) + "/carreportsystem/set_reports_user.php?type=user" +
+                "&uri=" + uri.toString() +
+                "&ownname=" + ownname +
+                "&plateno=" + platno +
+                "&uid=" + uid +
+                "&recon=" + recon.toString() +
+                "&pin=" + pin +
+                "&loc=" + loc +
+                "&username=" + username +
+                "&aadharuser=" + aadharuser +
+                "&userno=" + userno +
+                "&ownno=" + ownno +
+                "&status=" + status.toString()
+        val requestQ = Volley.newRequestQueue(this@ReportVehicleUser)
+        val stringRequest = StringRequest(Request.Method.GET, reportUrl,
+                { response ->
+
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Success")
+                        builder.setMessage("Report made successfully thank you for your contribution, " +
+                                "authorities will contact you for verification of report.")
+                        builder.setPositiveButton("yes"){
+                            dialog, which->
+                            finish()
+                        }
+                        builder.setCancelable(false)
+                        builder.show()
+
+
+                }, { error ->
+                    Log.d("hello",error.message.toString())
+
+        });
+        requestQ.add(stringRequest)
+    }
+
+
+
+    fun onRadioButtonClicked(view: View){
+        if (view is RadioButton){
+            val checked = view.isChecked
+            when(view.getId()){
+                R.id.rdbtnReportVehicleSus -> if (checked){
+                    edtTextReportVehicleCReport.setText("Abandoned Vehicle")
+                    edtTextReportVehicleCReport.isEnabled = false
+                }
+                R.id.rdbtnReportVehicleOS -> if (checked){
+                    edtTextReportVehicleCReport.setText("Over Speeding")
+                    edtTextReportVehicleCReport.isEnabled = false
+                }
+                R.id.rdbtnReportVehicleWP -> if (checked){
+                    edtTextReportVehicleCReport.setText("Illegal Parking")
+                    edtTextReportVehicleCReport.isEnabled = false
+                }
+                R.id.rdbtnReportVehicleHR -> if (checked){
+                    edtTextReportVehicleCReport.setText("Hit and Run")
+                    edtTextReportVehicleCReport.isEnabled = false
+                }
+                R.id.rdbtnReportVehicleSB -> if (checked){
+                    edtTextReportVehicleCReport.setText("Signal Bypassing")
+                    edtTextReportVehicleCReport.isEnabled = false
+                }
+                R.id.rdbtnReportVehicleC -> if (checked){
+                    edtTextReportVehicleCReport.setText("")
+                    edtTextReportVehicleCReport.isEnabled = true
+
+                }
             }
         }
     }

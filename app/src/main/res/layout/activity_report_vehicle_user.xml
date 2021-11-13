@@ -137,6 +137,7 @@
                     android:id="@+id/rdbtnReportVehicleSus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Abandoned Vehicle"
                     android:textSize="16sp" />
 
@@ -144,6 +145,7 @@
                     android:id="@+id/rdbtnReportVehicleOS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Over Speeding"
                     android:textSize="16sp" />
 
@@ -151,6 +153,7 @@
                     android:id="@+id/rdbtnReportVehicleWP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Illegal Parking"
                     android:textSize="16sp" />
 
@@ -158,6 +161,7 @@
                     android:id="@+id/rdbtnReportVehicleHR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Hit And Run"
                     android:textSize="16sp" />
 
@@ -165,6 +169,7 @@
                     android:id="@+id/rdbtnReportVehicleSB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Signal Bypassing"
                     android:textSize="16sp" />
 
@@ -172,6 +177,7 @@
                     android:id="@+id/rdbtnReportVehicleC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Custom Report"
                     android:textSize="16sp" />
             </RadioGroup>
