@@ -26,6 +26,7 @@ class ReportVehicleUser : AppCompatActivity(){
     var userMobileNum = "xyz"
     var userName = "xyz"
     var status = "not accepted yet"
+    var userEmail = "xyz"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +85,8 @@ class ReportVehicleUser : AppCompatActivity(){
                         userAadharNum,
                         userMobileNum,
                         ownerNum,
-                        status
+                        status,
+                        userEmail
                 )
             }
         })
@@ -96,6 +98,7 @@ class ReportVehicleUser : AppCompatActivity(){
             userAadharNum = sharedPreferences.getString("aadhar_num", "").toString()
             userMobileNum = sharedPreferences.getString("mobile_num", "").toString()
             userName = sharedPreferences.getString("name", "").toString()
+            userEmail = sharedPreferences.getString("email","").toString()
 
             if(userAadharNum!=null && userAadharNum.toString() != ""){
                 return 1
@@ -138,7 +141,7 @@ class ReportVehicleUser : AppCompatActivity(){
                    aadharuser : String,
                    userno : String,
                    ownno : String,
-                   status : String){
+                   status : String, email : String){
         var reportUrl = getString(R.string.ip) + "/carreportsystem/set_reports_user.php?type=user" +
                 "&uri=" + uri.toString() +
                 "&ownname=" + ownname +
@@ -151,7 +154,8 @@ class ReportVehicleUser : AppCompatActivity(){
                 "&aadharuser=" + aadharuser +
                 "&userno=" + userno +
                 "&ownno=" + ownno +
-                "&status=" + status.toString()
+                "&status=" + status.toString()+
+                "&email=" + email.toString()
         val requestQ = Volley.newRequestQueue(this@ReportVehicleUser)
         val stringRequest = StringRequest(Request.Method.GET, reportUrl,
                 { response ->
@@ -159,7 +163,7 @@ class ReportVehicleUser : AppCompatActivity(){
                         val builder = AlertDialog.Builder(this)
                         builder.setTitle("Success")
                         builder.setMessage("Report made successfully thank you for your contribution, " +
-                                "authorities will contact you for verification of report.")
+                                "authorities will contact you for verification of report." + response.toString())
                         builder.setPositiveButton("yes"){
                             dialog, which->
                             finish()
