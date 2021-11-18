@@ -111,7 +111,7 @@ class ReportViewAdapter(var context: Context, var arrayList: ArrayList<ReportEle
             itemView.txtViewReportElementOwnerName.text = ownname
             itemView.txtViewReportElementStatus.text = status
             itemView.txtViewReportElementTitle.text = recon
-            var newuri = uri
+            var newuri = context.getString(R.string.ip)+uri
             var picUrl = Uri.parse(newuri)
             Picasso.get().load(picUrl).into(itemView.imgViewReportElementCarImage)
         }
