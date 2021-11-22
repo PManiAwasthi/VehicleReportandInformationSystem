@@ -39,7 +39,7 @@ class ViewReports : AppCompatActivity() {
                                 response.getJSONObject(reportJOIndex).getString("name_owner"),
                                 response.getJSONObject(reportJOIndex).getString("status"),
                                 response.getJSONObject(reportJOIndex).getString("incharge_id"),
-                                response.getJSONObject(reportJOIndex).getString("report_content"),
+                                response.getJSONObject(reportJOIndex).getString("report_content_title"),
                                 response.getJSONObject(reportJOIndex).getInt("report_num"),
                                 response.getJSONObject(reportJOIndex).getString("vehicle_uid")
                         ))

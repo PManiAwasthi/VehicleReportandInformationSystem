@@ -27,6 +27,7 @@ class ReportVehicleUser : AppCompatActivity(){
     var userName = "xyz"
     var status = "not accepted yet"
     var userEmail = "xyz"
+    var title = "Other"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +87,8 @@ class ReportVehicleUser : AppCompatActivity(){
                         userMobileNum,
                         ownerNum,
                         status,
-                        userEmail
+                        userEmail,
+                        title
                 )
             }
         })
@@ -141,7 +143,7 @@ class ReportVehicleUser : AppCompatActivity(){
                    aadharuser : String,
                    userno : String,
                    ownno : String,
-                   status : String, email : String){
+                   status : String, email : String, titlenew: String){
         var reportUrl = getString(R.string.ip) + "/carreportsystem/set_reports_user.php?type=user" +
                 "&uri=" + uri.toString() +
                 "&ownname=" + ownname +
@@ -155,7 +157,8 @@ class ReportVehicleUser : AppCompatActivity(){
                 "&userno=" + userno +
                 "&ownno=" + ownno +
                 "&status=" + status.toString()+
-                "&email=" + email.toString()
+                "&email=" + email.toString() +
+                "&reportt=" + titlenew.toString()
         val requestQ = Volley.newRequestQueue(this@ReportVehicleUser)
         val stringRequest = StringRequest(Request.Method.GET, reportUrl,
                 { response ->
@@ -188,26 +191,32 @@ class ReportVehicleUser : AppCompatActivity(){
                 R.id.rdbtnReportVehicleSus -> if (checked){
                     edtTextReportVehicleCReport.setText("Abandoned Vehicle")
                     edtTextReportVehicleCReport.isEnabled = false
+                    title = "Abandoned Vehicle"
                 }
                 R.id.rdbtnReportVehicleOS -> if (checked){
                     edtTextReportVehicleCReport.setText("Over Speeding")
                     edtTextReportVehicleCReport.isEnabled = false
+                    title = "Over Speeding"
                 }
                 R.id.rdbtnReportVehicleWP -> if (checked){
                     edtTextReportVehicleCReport.setText("Illegal Parking")
                     edtTextReportVehicleCReport.isEnabled = false
+                    title = "Illegal Parking"
                 }
                 R.id.rdbtnReportVehicleHR -> if (checked){
                     edtTextReportVehicleCReport.setText("Hit and Run")
                     edtTextReportVehicleCReport.isEnabled = false
+                    title = "Hit and Run"
                 }
                 R.id.rdbtnReportVehicleSB -> if (checked){
                     edtTextReportVehicleCReport.setText("Signal Bypassing")
                     edtTextReportVehicleCReport.isEnabled = false
+                    title = "Signal Bypassing"
                 }
                 R.id.rdbtnReportVehicleC -> if (checked){
                     edtTextReportVehicleCReport.setText("")
                     edtTextReportVehicleCReport.isEnabled = true
+                    title = "Other"
 
                 }
             }

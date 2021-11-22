@@ -58,13 +58,50 @@
         android:id="@+id/edtTextCropImagePlateNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:hint="Enter Plate Number of car"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/btnCropImageSend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintEnd_toStartOf="@+id/btnCropImageDetectText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgViewCropImage"
         app:layout_constraintVertical_bias="0.902" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please crop the image so that the number is only visible or the car"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/imgViewCropImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make sure that the image is horizontal before pressing the detect button"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/edtTextCropImagePlateNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgViewCropImage"
+        app:layout_constraintVertical_bias="0.291" />
+
+    <Button
+        android:id="@+id/btnCropImageDetectText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:text="Detect"
+        app:layout_constraintBottom_toTopOf="@+id/btnCropImageSend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCropImageRetake"
+        app:layout_constraintVertical_bias="0.521" />
 </androidx.constraintlayout.widget.ConstraintLayout>

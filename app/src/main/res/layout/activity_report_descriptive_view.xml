@@ -28,7 +28,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/txtViewReportDescriptiveViewOwnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView31"
+        android:id="@+id/txtViewReportDescriptiveViewCarPlateNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -53,7 +53,7 @@
         app:layout_constraintEnd_toStartOf="@+id/imgViewReportDescriptiveViewOwnerImage"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintTop_toBottomOf="@+id/txtViewReportDescriptiveViewOwnerName" />
 
     <TabHost
         android:id="@+id/tabHostReportDescriptiveView"
@@ -120,7 +120,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="24dp"
                                     android:text="TextView"
-                                    android:textSize="26sp"
+                                    android:textSize="24sp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.466"
                                     app:layout_constraintStart_toEndOf="@+id/imgViewReportDescriptiveViewReportedCarImage"
@@ -154,11 +154,11 @@
                                     android:id="@+id/imgViewReportDescriptiveViewCitizenImage"
                                     android:layout_width="165dp"
                                     android:layout_height="137dp"
-                                    android:layout_marginTop="132dp"
+                                    android:layout_marginTop="16dp"
                                     android:scaleType="fitXY"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView7"
                                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
                                 <TextView
@@ -166,13 +166,13 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="16dp"
-                                    android:layout_marginTop="312dp"
+                                    android:layout_marginTop="188dp"
                                     android:text="Username"
                                     android:textSize="18sp"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.0"
+                                    app:layout_constraintHorizontal_bias="0.003"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                                 <TextView
                                     android:id="@+id/txtViewReportDescriptiveViewCitizenUsername"
@@ -243,12 +243,13 @@
                                     android:id="@+id/textView10"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
                                     android:text="Reported Car Model Name"
                                     android:textSize="18sp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.08"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toBottomOf="@+id/txtReportDescriptiveViewReportContent" />
 
                                 <TextView
                                     android:id="@+id/txtViewReportDescriptiveViewCarModelName"
@@ -271,13 +272,36 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="16dp"
-                                    android:layout_marginTop="80dp"
+                                    android:layout_marginTop="16dp"
                                     android:text="Citizen information"
                                     android:textSize="22sp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.0"
                                     app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/txtViewReportDescriptiveViewCarModelName" />
+
+                                <TextView
+                                    android:id="@+id/textView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:text="Report Content"
+                                    android:textSize="18sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHorizontal_bias="0.0"
+                                    app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/txtReportDescriptiveViewReportContent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="8dp"
+                                    android:text="TextView"
+                                    android:textSize="18sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -531,16 +555,15 @@
                                 android:id="@+id/editTextReportDescriptiveViewReportConclusion"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
                                 android:ems="10"
                                 android:gravity="start|top"
                                 android:hint="Enter Result of investigation"
                                 android:inputType="textMultiLine"
-                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="1.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-                                app:layout_constraintVertical_bias="0.0" />
+                                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
                             <TextView
                                 android:id="@+id/textView5"
@@ -566,6 +589,18 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.084"
                                 app:layout_constraintStart_toStartOf="parent" />
+
+                            <Button
+                                android:id="@+id/btnReportDescriptiveViewConclusionSubmitButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="Button"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/editTextReportDescriptiveViewReportConclusion"
+                                app:layout_constraintVertical_bias="0.0" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </ScrollView>
 

@@ -1,12 +1,14 @@
 package com.example.carreportappv2;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -28,6 +30,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -41,7 +50,7 @@ import java.util.Map;
 
 public class MyCropImageActivity extends AppCompatActivity implements View.OnClickListener{
     ImageView imgViewCropImage;
-    Button btnCropImageCrop, btnCropImageSend, btnCropImageRetake;
+    Button btnCropImageCrop, btnCropImageSend, btnCropImageRetake, btnCropImageDetectText;
     private Uri uri, toUploadImageUri,uploadedImageUri;
 
     SharedPreferences sharedPreferences;
@@ -68,6 +77,8 @@ public class MyCropImageActivity extends AppCompatActivity implements View.OnCli
         btnCropImageSend = findViewById(R.id.btnCropImageSend);
         btnCropImageRetake = findViewById(R.id.btnCropImageRetake);
         edtTextCropImagePlateNo = findViewById(R.id.edtTextCropImagePlateNumber);
+        btnCropImageDetectText = findViewById(R.id.btnCropImageDetectText);
+
         imgViewCropImage.setImageURI(uri);
         try {
             FixBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
@@ -78,6 +89,7 @@ public class MyCropImageActivity extends AppCompatActivity implements View.OnCli
         btnCropImageCrop.setOnClickListener(this::onClick);
         btnCropImageRetake.setOnClickListener(this::onClick);
         btnCropImageSend.setOnClickListener(this::onClick);
+        btnCropImageDetectText.setOnClickListener(this::onClick);
 
     }
 
@@ -97,6 +109,7 @@ public class MyCropImageActivity extends AppCompatActivity implements View.OnCli
                     output.write(bytesofimage);
                     encodeBitmapImage(FixBitmap2);
                     uri = Uri.fromFile(file);
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -127,6 +140,42 @@ public class MyCropImageActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private void textRecog(Uri uri){
+        TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        InputImage image;
+        try {
+            image = InputImage.fromFilePath(this, uri);
+            recognizer.process(image)
+                    .addOnSuccessListener(new OnSuccessListener<Text>() {
+                        @Override
+                        public void onSuccess(Text visionText) {
+                            // Task completed successfully
+                            // ...
+                            processTextResult(visionText);
+                        }
+                    })
+                    .addOnFailureListener(
+                            new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Task failed with an exception
+                                    // ...
+                                }
+                            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void processTextResult(Text texts){
+        String resultText = texts.getText();
+        edtTextCropImagePlateNo.setText(resultText);
+    }
+
     public void cropImage(Uri uri){
         CropImage.activity(uri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -142,15 +191,38 @@ public class MyCropImageActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.btnCropImageRetake: finish();
             break;
+            case R.id.btnCropImageDetectText:textRecog(uri);;
+            break;
             case R.id.btnCropImageSend:
 
                 int login = checkLogin();
                 if(login == 1){
                     if(accType.equals("user")){
-                        progressDialog = new ProgressDialog(this);
-                        progressDialog.setMessage("loading");
-                        progressDialog.show();
-                        uploadData();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Info");
+                        builder.setCancelable(false);;
+                        builder.setMessage("Make sure that the plate number matches the displayed plate number");
+                        builder.setPositiveButton(
+                                "Matches",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.d("hello", edtTextCropImagePlateNo.getText().toString());
+                                        uploadData();
+                                    }
+                                }
+                        );
+                        builder.setNegativeButton(
+                                "try again",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                }
+                        );
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }else{
                         new AlertDialog.Builder(this)
                                 .setTitle("Not Allowed")
@@ -185,6 +257,9 @@ public class MyCropImageActivity extends AppCompatActivity implements View.OnCli
         RequestQueue queue = Volley.newRequestQueue(this);
         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         email = sharedPreferences.getString("email","");
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading");
+        progressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

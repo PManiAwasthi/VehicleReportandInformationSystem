@@ -67,6 +67,8 @@ class ReportViewAdapter(var context: Context, var arrayList: ArrayList<ReportEle
         }else{
             if(userInfo.uid == incharge){
                 var intent = Intent(context, ReportDescriptiveView::class.java)
+                intent.putExtra("vno", arrayList[position].vehicle_uid)
+                intent.putExtra("rno", arrayList[position].report_num)
                 context.startActivity(intent)
             }else{
                 val builder = AlertDialog.Builder(context)
@@ -93,6 +95,8 @@ class ReportViewAdapter(var context: Context, var arrayList: ArrayList<ReportEle
         val stringRequest = StringRequest(Request.Method.GET, inchargeUrl, {
             response ->
             var intent = Intent(context, ReportDescriptiveView::class.java)
+            intent.putExtra("vno", arrayList[position].vehicle_uid)
+            intent.putExtra("rno", arrayList[position].report_num)
             context.startActivity(intent)
 
         },{ error ->
